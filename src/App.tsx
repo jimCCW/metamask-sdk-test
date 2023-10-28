@@ -1,24 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { useSDK } from '@metamask/sdk-react';
+
 import './App.css';
 
 function App() {
+  // const [account, setAccount] = useState<string>();
+  const { sdk, connected, account, chainId } = useSDK();
+
+  const connect = async () => {
+    try {
+      const accounts = await sdk?.connect();
+      // setAccount(accounts?.[0]);
+    } catch(err) {
+      console.warn(`failed to connect..`, err);
+    }
+  };
+
+  const terminate = async () => {
+    sdk?.terminate();
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        !connected ? (
+      <button style={{ padding: 10, margin: 10 }} onClick={connect}>
+        Connect
+      </button>
+        ) : (
+          <button style={{ padding: 10, margin: 10 }} onClick={terminate}>
+        Disconnect
+      </button>
+        )
+      }
+      {connected && (
+        <div>
+          <>
+            {`Connected chain: ${chainId}`}
+            <p></p>
+            {account && `Connected account: ${account}`}
+          </>
+        </div>
+      )}
     </div>
   );
 }
