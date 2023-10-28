@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Intro
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This sample code demonstrates the issue with the MetaMask SDK, which fails to retrieve the chainId when the wallet is newly connected to the app.
 
 ## Available Scripts
 
